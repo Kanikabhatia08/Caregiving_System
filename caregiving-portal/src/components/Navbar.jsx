@@ -37,35 +37,27 @@ function Navbar() {
                             <Link to="/">Home</Link></li>
 
                         <li className="hover:text-orange hover:no-underline cursor-pointer">
-                            <Link to="/courses">Courses</Link></li>
+                            <Link to="/bookings">Bookings</Link></li>
 
                         <li className="hover:text-orange hover:no-underline cursor-pointer">
-                            <Link to="/blogs">Blogs</Link></li>
+                            <Link to="/Contactus">Contact Us</Link></li>
 
                             <button type="button" ref={dropRef} onClick={() => setIsOpen((prev) => !prev)} className="relative select-none hover:text-orange flex hover:no-underline cursor-pointer">
-                                Page
+                                Account
                                 
                                 {!isOpen ? (<IoMdArrowDropdown className='mt-2' />) : (<IoMdArrowDropup className='mt-2'/>)}
                             </button>
                             {
                                 isOpen && (
-                                    <div ref={menuRef} className="absolute py-1 mt-10 bg-white border right-[48.5%] shadow-lg z-10" role="none">
+                                    <div ref={menuRef} className="absolute py-1 mt-10 bg-white border right-[7%] shadow-lg z-10" role="none">
                                         <Link to="/faqs" onClick={() =>{setIsOpen(false)}} className=" block px-4 py-2 text-sm hover:text-orange">FAQ's</Link>
                                         <Link to="/contactUs" onClick={() =>{setIsOpen(false)}}  className="text-gray-700 block px-4 py-2 text-sm hover:text-orange">Contact Us</Link>
                                     </div>
                                 )
                             }
-
-                            
-
-                        <li><a href="#" className="hover:text-orange hover:no-underline cursor-pointer">LearnPress Add-On</a></li>
-                        <li><a href="#" className="hover:text-orange hover:no-underline cursor-pointer">Premium Theme</a></li> 
                     </ul>
                 </div>  
-
-
-            </nav>
-            
+            </nav>         
         </div>
     )
 }

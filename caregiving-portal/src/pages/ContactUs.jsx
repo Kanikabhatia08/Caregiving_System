@@ -34,7 +34,7 @@ function ContactUs() {
         </div>
         <div className='w-full my-10'>
             <h1 className='text-4xl'>Contact Us</h1>
-            <p className='text-gray'>Your email address will not be published. Required fields are marked *</p>
+            <p className='text-gray'>Required fields are marked *</p>
             <form className='flex flex-col my-3 gap-3'>
                 <div className='flex justify-between gap-2'>
                     <input 

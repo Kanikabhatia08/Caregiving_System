@@ -6,13 +6,21 @@ import { Routes, Route } from 'react-router-dom';
 import Footer from './components/Footer';
 import ContactUs from './pages/ContactUs';
 
-
 function App() {
   return (
     <div>
       <Navbar />
-
       <Routes>
+      <Route path="/courses" element={
+          <PrivateLink >
+            <Courses />
+          </PrivateLink>
+        } />
+        <Route path="/cart" element={
+          <PrivateLink  >
+            <Cart />
+          </PrivateLink>
+        } />
         <Route path="/login" element={<Home />} />
         <Route path="/signup" element={<Home />} />
         <Route path="/blogs" element={<Home />} />
@@ -22,7 +30,6 @@ function App() {
         <Route path="/" element={<Home />} />
       </Routes>
       <Footer />
-
     </div>
   );
 }

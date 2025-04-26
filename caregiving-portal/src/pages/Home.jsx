@@ -121,7 +121,7 @@ function Home() {
         {/* Add on 2 */}
         <div className="flex mx-auto my-10 justify-center ">
           <div className="relative">
-            <img src={AddOn2} alt='Healthcare Service' />
+            <img src={AddOn2} alt='Healthcare Service' className='rounded-3xl' />
           </div>
           <div className="absolute max-w-[40%] text-center ml-20 lg:mt-8 2xl:mt-20">
             <h3 className="text-lg font-semibold">DELIVERING EXCEPTIONAL</h3>

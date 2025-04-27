@@ -10,6 +10,8 @@ import grow from '../images/Grow.jpg'
 import tick from '../images/Tick.png'
 import student from '../images/student.png'
 import quotes from "../images/Quotes.png"
+import { Link } from 'react-router-dom';
+
 
 
 
@@ -33,8 +35,11 @@ function Home() {
           <p className="text-gray text-xs p-3 md:py-6 xl:pb-9 md:text-sm lg:text-xl">
             Medical Services is your reliable partner in providing expert home healthcare, elderly assistance, and personalized caregiving solutions—ensuring comfort, dignity, and well-being for your loved ones.</p>
 
-          <button className="text-white bg-orange  rounded-full text-sm md:text-lg xl:text-xl  px-3 md:py-4 md:px-4 animate-slideUp">
-            Book an Appointment</button>
+          <Link to="/bookings">
+            <button className="text-white bg-orange rounded-full text-sm md:text-lg xl:text-xl px-3 md:py-4 md:px-4 animate-slideUp">
+              Book an Appointment
+            </button>
+          </Link>
 
         </div>
       </section>

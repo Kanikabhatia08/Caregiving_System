@@ -12,9 +12,6 @@ import student from '../images/student.png'
 import quotes from "../images/Quotes.png"
 import { Link } from 'react-router-dom';
 
-
-
-
 function Home() {
 
   return (

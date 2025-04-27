@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import { Link } from 'react-router-dom'
-import {bookingValidationSchema} from '../schema/index'
+import { bookingValidationSchema } from '../schema/index'
+import axios from 'axios';
+
 
 
 // Dummy service data for now; you can replace this with actual API call results
@@ -33,8 +35,15 @@ export default function Bookings() {
     const { values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue } = useFormik({
         initialValues: initialValues,
         validationSchema: bookingValidationSchema,
-        onSubmit: (values, action) => {
+        onSubmit: async (values, action) => {
             console.log(values);
+            try {
+                await axios.post('http://localhost:5000/api/bookings', values);
+                alert('Booking created successfully!');
+            } catch (err) {
+                console.error(err);
+                alert('Failed to create booking');
+            }
             action.resetForm();
         }
     });
@@ -67,7 +76,7 @@ export default function Bookings() {
                 <div className="border-[1px] order-1 my-[5%] border-lightgray rounded-2xl shadow-lg p-9">
                     <h1 className="text-3xl font-semibold pb-4">Book a Service</h1>
                     <div className="flex-col">
-                        
+
                         <div>
                             <select
                                 name="serviceName"

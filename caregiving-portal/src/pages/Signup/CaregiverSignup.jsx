@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import toast from 'react-hot-toast';
 import { caregiverSignupSchema } from '../../schema/index';
-
+import axios from 'axios';
 import { useFormik } from 'formik'
 
 const initialValues = {
@@ -13,8 +13,8 @@ const initialValues = {
     email: '',
     password: '',
     confirmPassword: '',
-    experience:'',
-    specialization:'',
+    experience: '',
+    specialization: '',
     role: 'caregiver',
 
 };
@@ -26,9 +26,16 @@ export default function CaregiverSignup() {
     const { values, errors, touched, handleChange, handleBlur, handleSubmit } = useFormik({
         initialValues: initialValues,
         validationSchema: caregiverSignupSchema,
-        onSubmit: (values, action) => {
-            console.log(values);
-            action.resetForm(); //resets the form after submit
+        onSubmit: async (values, action) => {
+            try {
+                const res = await axios.post('http://localhost:5000/signup-caregiver', values);
+                console.log('Signup Success:', res.data);
+                alert('Caregiver signed up successfully!');
+                action.resetForm();
+            } catch (error) {
+                console.error('Signup Error:', error);
+                alert('Error during signup');
+            }
         }
     });
     // console.log(Formik)

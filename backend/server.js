@@ -1,36 +1,59 @@
-const express = require("express");
-const mysql = require("mysql2");
-const cors = require("cors");
-require("dotenv").config();
-
+const express = require('express');
+const mysql = require('mysql');
+const cors = require('cors');
 
 const app = express();
 app.use(cors());
-app.use(express.json());
+app.use(express.json()); // to parse JSON from frontend
 
+// Create MySQL connection
 const db = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
+    host: 'localhost',
+    user: 'root',
+    password: '',          // (blank, if you didn't set a password during XAMPP installation)
+    database: 'caregiving_system'    // your database name
 });
 
-const PORT = process.env.PORT || 3001;
-
-app.listen(PORT, () => {
-    console.log(`Backend running at http://localhost:${PORT}`);
+// Connect to database
+db.connect((err) => {
+    if (err) {
+        console.error('Database connection failed: ' + err.stack);
+        return;
+    }
+    console.log('Connected to MySQL database.');
 });
 
-
-
-db.connect(err => {
-    if (err) throw err;
-    console.log("MySQL Connected");
+// Server listening
+app.listen(5000, () => {
+    console.log('Server is running on port 5000');
 });
 
-app.get("/services", (req, res) => {
-    db.query("SELECT * FROM services", (err, result) => {
-        if (err) return res.send(err);
-        res.json(result);
+app.post('/signup-caregiver', (req, res) => {
+    const { name, email, password, phone } = req.body;
+
+    const sql = 'INSERT INTO caregiver (name, email, password, phone) VALUES (?, ?, ?, ?)';
+    const values = [name, email, password, phone];
+
+    db.query(sql, values, (err, result) => {
+        if (err) {
+            console.error('Caregiver signup error: ', err);
+            return res.status(500).json({ message: 'Caregiver signup failed' });
+        }
+        res.status(200).json({ message: 'Caregiver signed up successfully', id: result.insertId });
+    });
+});
+
+app.post('/signup-customer', (req, res) => {
+    const { name, email, password, phone } = req.body;
+
+    const sql = 'INSERT INTO customer (name, email, password, phone) VALUES (?, ?, ?, ?)';
+    const values = [name, email, password, phone];
+
+    db.query(sql, values, (err, result) => {
+        if (err) {
+            console.error('Customer signup error: ', err);
+            return res.status(500).json({ message: 'Customer signup failed' });
+        }
+        res.status(200).json({ message: 'Customer signed up successfully', id: result.insertId });
     });
 });

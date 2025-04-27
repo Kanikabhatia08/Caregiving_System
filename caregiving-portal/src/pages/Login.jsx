@@ -1,138 +1,138 @@
-import React, { useState, useEffect } from 'react'
-import toast from 'react-hot-toast';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import loginImg from '../images/login.jpg'
-import { AiOutlineEye,AiOutlineEyeInvisible } from "react-icons/ai";
-import { useDispatch, useSelector } from 'react-redux';
-import { getUsers } from '../redux/slices/authSlice';
-import { authenticate } from '../redux/slices/LoginSlice';
+import loginImg from '../images/login.jpg';
+import { useFormik } from 'formik';
+import { loginValidationSchema } from '../schema/index'; // Import Yup schema
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
+const initialValues = {
+  email: '',
+  password: '',
+  role: '',
+};
 
 function Login() {
-
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({
-    email:"",
-    password:"",
+
+  const { values, errors, touched, handleChange, handleBlur, handleSubmit } = useFormik({
+    initialValues: initialValues,
+    validationSchema: loginValidationSchema,
+    onSubmit: (values, actions) => {
+      console.log(values);
+      actions.resetForm();
+      // navigate("/dashboard"); // Optional: redirect after login
+    },
   });
 
-  const state = useSelector((state) => state)
-  // console.log(state)
-
-  useEffect(()=>{
-    dispatch(getUsers())
-  },[])
-
-  function submitHandler(event){
-    event.preventDefault();
-
-    // let storedUsers = JSON.parse(localStorage.getItem('formData'))
-    // console.log(storedUsers,"userssssssssss")
-    // if(storedUsers){
-    //   storedUsers.forEach((users) =>{
-    //     if(formData.email == users.email && formData.password == users.password){
-    //       localStorage.setItem("setIsLoggedIn", JSON.stringify(true));
-    //       // setIsLoggedIn(true);
-    //       toast.success("You are logged in");
-    //     }
-    //   })
-
-    if(formData){
-      if(formData.email.length === 0 || formData.password.length === 0){
-        toast.error("Enter Email & Password");
-      }
-      else if(formData.password.length < 6){
-        toast.error("Password should be more than 6 characters")
-      }
-      else{
-        if(state?.users){
-          var match = false;
-          console.log(state?.users,"state?.usersstate?.users");
-          state?.users?.data?.map((user)=>{
-            if(formData.email === user.email && formData.password === user.password){
-                localStorage.setItem("setIsLoggedIn", JSON.stringify(true));
-                dispatch(authenticate(true))
-                toast.success("You are logged in")
-                match = true;
-            } 
-        })
-        if(match === false){
-          toast.error("Valid email & password required")
-        }
-        {(match ? 
-          (navigate("/Courses"))
-          :
-          (navigate("/Login")))}
-      }
-      }
-    }
-    else{
-      toast.error("Please signup to create an account")
-    }
-}
-
-  function changeHandler(event){
-    setFormData( (prevData) => (
-        {
-            ...prevData, 
-            [event.target.name] : event.target.value
-        }
-    ))
-  }
-
-
-    return (
+  return (
     <div>
       <section className='flex justify-center mx-auto max-w-[80%]'>
         <div className="sm:hidden lg:block lg:max-w-[50%] xl:max-w-[50%] sm:my-[20%] lg:my-0">
-          <img src={loginImg} alt='login'/>
+          <img src={loginImg} alt='login' />
         </div>
-        <form onSubmit={submitHandler}>
+
+        <form onSubmit={handleSubmit}>
           <div className='border-[1px] border-lightgray rounded-2xl mt-10 p-9 shadow-lg'>
             <h1 className="text-3xl font-semibold">Login</h1>
+
             <div>
-              <input 
-                type="email" 
-                name="email" 
-                value={formData.email} 
-                onChange={changeHandler} 
-                placeholder="Enter Email Id*"  
-                className="w-full my-4 border-[1px] border-lightgray rounded-lg p-2 text-lg max-w-full"
-              />
+              {/* Email Field */}
+              <div>
+                <input
+                  type="email"
+                  name="email"
+                  value={values.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  placeholder="Enter Email Id*"
+                  className="w-full my-4 border-[1px] border-lightgray rounded-lg p-2 text-lg max-w-full"
+                />
+                {errors.email && touched.email && (
+                  <p className='text-orange text-xs font-semibold'>{errors.email}</p>
+                )}
+              </div>
 
-              <input  
-                name="password" 
-                type={showPassword ? ("text") : ("password")}
-                value={formData.password} 
-                onChange={changeHandler} 
-                placeholder="Enter Password* "  
-                className="w-full mb-4 border-[1px] border-lightgray rounded-lg p-2 relative z-0 text-lg max-w-full"
-              />
-
-              <span 
-                className='absolute mt-[9px] cursor-pointer z-10 right-[13%]'
-                onClick={()=>{setShowPassword((prev) => !prev)}}>
-                    {
-                        showPassword ? 
-                        (<AiOutlineEye fontSize={24} fill="#AFB2BF"/>) : 
-                        (<AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF"/>)
-                    }
+              {/* Password Field */}
+              <div className="relative">
+                <input
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  value={values.password}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  placeholder="Enter Password* "
+                  className="w-full mb-4 border-[1px] border-lightgray rounded-lg p-2 relative z-0 text-lg max-w-full"
+                />
+                <span
+                  className='absolute mt-[9px] cursor-pointer z-10 right-[1%]'
+                  onClick={() => setShowPassword((prev) => !prev)}
+                >
+                  {showPassword ? (
+                    <AiOutlineEye fontSize={24} fill="#AFB2BF" />
+                  ) : (
+                    <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
+                  )}
                 </span>
+                {errors.password && touched.password && (
+                  <p className='text-orange text-xs font-semibold'>{errors.password}</p>
+                )}
+              </div>
 
-              <input type="checkbox" id="rememberMe"/> Remember Me                        
+              {/* Role Field */}
+              <div className="flex items-center space-x-4 mb-4">
+                <label className="text-lg">Select Role:</label>
+
+                <div className="flex items-center">
+                  <input
+                    type="radio"
+                    id="customer"
+                    name="role"
+                    value="customer"
+                    checked={values.role === "customer"}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className="mr-2"
+                  />
+                  <label htmlFor="customer" className="text-lg">Customer</label>
+                </div>
+
+                <div className="flex items-center">
+                  <input
+                    type="radio"
+                    id="caregiver"
+                    name="role"
+                    value="caregiver"
+                    checked={values.role === "caregiver"}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className="mr-2"
+                  />
+                  <label htmlFor="caregiver" className="text-lg">Caregiver</label>
+                </div>
+              </div>
+              {errors.role && touched.role && (
+                <p className='text-orange text-xs font-semibold'>{errors.role}</p>
+              )}
             </div>
-            
-            <button value="Login" className="button rounded-full py-2 text-center text-xl my-4 text-white bg-orange border-none w-full">Login</button>
-            <p>Don't have an account? <button><Link to="/signup" className='text-orange hover:underline'> Sign Up</Link></button></p>
+
+            {/* Login Button */}
+            <button type="submit" className="button rounded-full py-2 text-center text-xl my-4 text-white bg-orange border-none w-full">
+              Login
+            </button>
+
+            {/* Signup link */}
+            <p>Don't have an account? 
+              <button>
+                <Link to="/signup" className='text-orange hover:underline'> Sign Up</Link>
+              </button>
+            </p>
           </div>
         </form>
 
       </section>
-      
     </div>
-  )
+  );
 }
 
 export default Login;

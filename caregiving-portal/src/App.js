@@ -5,13 +5,17 @@ import Error from './pages/Error'
 import { Routes, Route } from 'react-router-dom';
 import Footer from './components/Footer';
 import ContactUs from './pages/ContactUs';
+import Login from './pages/Login';
+import Signup from './pages/Signup/Signup';
+import FAQs from './pages/FAQs';
+import Bookings from './pages/Bookings';
 
 function App() {
   return (
     <div>
       <Navbar />
       <Routes>
-      <Route path="/courses" element={
+      {/* <Route path="/courses" element={
           <PrivateLink >
             <Courses />
           </PrivateLink>
@@ -20,11 +24,11 @@ function App() {
           <PrivateLink  >
             <Cart />
           </PrivateLink>
-        } />
-        <Route path="/login" element={<Home />} />
-        <Route path="/signup" element={<Home />} />
-        <Route path="/blogs" element={<Home />} />
-        <Route path="/faqs" element={<Home />} />
+        } /> */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/bookings" element={<Bookings />} />
+        <Route path="/faqs" element={<FAQs />} />
         <Route path="/contactUs" element={<ContactUs />} />
         <Route path="/*" element={<Error />} />
         <Route path="/" element={<Home />} />

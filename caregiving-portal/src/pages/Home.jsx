@@ -9,15 +9,11 @@ import AddOn3 from '../images/Maskgroup3.png'
 import grow from '../images/Grow.jpg'
 import tick from '../images/Tick.png'
 import student from '../images/student.png'
-import CountUp from 'react-countup'
 import quotes from "../images/Quotes.png"
-import ScrollTrigger from 'react-scroll-trigger'
 
 
 
 function Home() {
-
-  const [counter, setCounter] = useState()
 
   return (
     <div>
@@ -43,7 +39,7 @@ function Home() {
         </div>
       </section>
 
-      <div className='max-w-[73%] flex-col flex gap-14 justify-center mx-auto my-14 '>
+      <div className='max-w-[73%] flex-col flex gap-16 justify-center mx-auto my-14 '>
 
         {/* Top Categories */}
         <section className='my-10'>
@@ -77,7 +73,7 @@ function Home() {
 
         {/* add On 1 */}
 
-        <div className="flex mx-auto justify-center ">
+        <div className="flex mx-auto justify-center pb-10">
           <div className="relative">
             <img src={AddOn1} alt='addOn1' />
           </div>
@@ -94,11 +90,11 @@ function Home() {
         </div>
 
         {/* Grow SKill */}
-        <div className="flex gap-20 mx-auto justify-between ">
-          <div>
-            <img src={grow} alt='medical-care' className='size-[90%]' />
-          </div>
+        <div className="flex gap-30 mx-auto justify-between ">
           <div className="max-w-[50%]">
+            <img src={grow} alt='medical-care' className='w-[80%]' />
+          </div>
+          <div className="max-w-[60%]">
             <h1 className="font-semibold lg:text-2xl 2xl:text-4xl">
               Comprehensive Healthcare Services You Can Trust
             </h1>

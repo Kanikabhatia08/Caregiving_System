@@ -1,34 +1,34 @@
 import React, { useState } from 'react'
 import { FaAngleDown } from "react-icons/fa";
 
-import faq from '../images/Faq.png'
+import faq from '../images/faq.png'
 
 function FAQs() {
     const faqs = [
         {
-            question: 'What does LMS mean for an organization?',
-            answer: 'An LMS means you have an online tool to efficiently manage employee training, development, and engagement—your modern learning solution. An LMS is a website where your organization can put its training materials, frequently used documents, and communicate directly with your people.'
+            question: 'What are medical services and how do they benefit patients?',
+            answer: 'Medical services include a wide range of healthcare solutions provided by professionals to maintain and improve the health of individuals. These services cover preventive care, diagnostic tests, treatments, and rehabilitation, ensuring that patients receive comprehensive care tailored to their needs.'
         },
         {
-            question: 'What are the benefits of an LMS?',
-            answer: 'The primary benefits of using an LMS are in training and communication in one easily accessible platform. Content creation tools within the LMS power up course authoring for you to build learning paths, for things like onboarding and career development.  '
+            question: 'What are the benefits of using home healthcare services?',
+            answer: 'Home healthcare services offer the convenience and comfort of receiving medical care at home. These services include nursing care, physical therapy, and assistance with daily activities, all delivered by trained professionals to help patients recover in a familiar, supportive environment.'
         },
         {
-            question: 'Why should I use an LMS?',
-            answer: 'You should use an LMS simply because it improves your people operations. The best LMS platforms fit the workflow of you and your people, making it easy to train, onboard new employees, and communicate consistently across the country in different locations.'
+            question: 'Why should I choose medical services for my loved ones?',
+            answer: "Choosing professional medical services ensures your loved ones receive the highest quality care. Whether it's managing chronic conditions, recovering from surgery, or receiving elder care, trained professionals provide personalized care that improves health outcomes and enhances quality of life."
         },
         {
-            question: 'What are assessments and testing?',
-            answer: 'Assessments and testing are key because they help track learners’ progress and development. You should check with the vendor to see what types of assessments their LMS offers. Multiple choice quizzes are great, but sometimes there is a need    to show someone in person that they’ve mastered a new skill.'
+            question: 'What is the role of medical assessments in patient care?',
+            answer: 'Medical assessments are crucial in diagnosing health conditions and tracking progress. Through physical exams, tests, and consultations, healthcare providers can evaluate a patient’s health, determine the appropriate treatment plan, and monitor recovery. Regular assessments help in early detection of potential health issues.'
         },
         {
-            question: 'What is instructor-led training?',
-            answer: 'Instructor-led training is the classic, traditional way of training and learning. You’ve got a teacher and a bunch of students, and the instructor teaches those students through formal means in real time.'
+            question: 'What is personalized healthcare?',
+            answer: 'Personalized healthcare involves creating customized treatment plans based on an individual’s unique health profile, preferences, and needs. This approach ensures that patients receive the most effective treatments and care, improving health outcomes and patient satisfaction.'
         },
         {
-            question: 'Why do I need social learning?',
-            answer: 'The ability to share content with your colleagues brings people together and gives learners a feel for the big-picture direction of an organization. Conversational threads boost efficiency since learners find exactly what they need to know and refer back to the answer as needed.'
-        },
+            question: 'Why is telemedicine important in modern healthcare?',
+            answer: 'Telemedicine allows patients to consult healthcare professionals remotely, making medical advice and treatment more accessible, especially for those in rural areas or with mobility issues. It enhances convenience, reduces wait times, and provides quick access to specialists, improving overall healthcare delivery.'
+        }        
     ];
 
     const [activeIndex, setActiveIndex] = useState(null)

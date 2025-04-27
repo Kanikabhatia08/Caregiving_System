@@ -40,9 +40,23 @@ function Navbar() {
                             <Link to="/bookings">Bookings</Link></li>
 
                         <li className="hover:text-orange hover:no-underline cursor-pointer">
-                            <Link to="/Contactus">Contact Us</Link></li>
+                            <Link to="/faqs">Faqs</Link></li>
+                            
+                    <div className="flex gap-2">
+                        <Link to="/login">
+                            <button className=" hover:text-orange hover:no-underline cursor-pointer">
+                                Login <span className='text-black'>/</span>
+                            </button>
+                        </Link>
+                    
+                        <Link to="/signup">
+                            <button className=" hover:text-orange hover:no-underline cursor-pointer">
+                                Sign Up
+                            </button>
+                        </Link>
+                    </div>
 
-                            <button type="button" ref={dropRef} onClick={() => setIsOpen((prev) => !prev)} className="relative select-none hover:text-orange flex hover:no-underline cursor-pointer">
+                            {/* <button type="button" ref={dropRef} onClick={() => setIsOpen((prev) => !prev)} className="relative select-none hover:text-orange flex hover:no-underline cursor-pointer">
                                 Account
                                 
                                 {!isOpen ? (<IoMdArrowDropdown className='mt-2' />) : (<IoMdArrowDropup className='mt-2'/>)}
@@ -54,7 +68,7 @@ function Navbar() {
                                         <Link to="/contactUs" onClick={() =>{setIsOpen(false)}}  className="text-gray-700 block px-4 py-2 text-sm hover:text-orange">Contact Us</Link>
                                     </div>
                                 )
-                            }
+                            } */}
                     </ul>
                 </div>  
             </nav>         

@@ -1,59 +1,115 @@
 const express = require('express');
-const mysql = require('mysql');
 const cors = require('cors');
+const bodyParser = require('body-parser');
+const knex = require('knex')(require("./knex"))
 
 const app = express();
+
+// Middleware
 app.use(cors());
-app.use(express.json()); // to parse JSON from frontend
+app.use(bodyParser.json());
 
-// Create MySQL connection
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',          // (blank, if you didn't set a password during XAMPP installation)
-    database: 'caregiving_system'    // your database name
+// Basic Route
+app.get('/', async (req, res) => {
+    let result = await knex.raw(`select * from EMPLOYEES`)
+    console.log(result)
+    res.json(result)
 });
 
-// Connect to database
-db.connect((err) => {
-    if (err) {
-        console.error('Database connection failed: ' + err.stack);
-        return;
+
+app.post('/services', async (req, res) => {
+    try {
+        const { name, description, price } = req.body;
+        let result = await knex('SERVICES').insert({ SERVICE_ID: "23423", NAME: name, DESCRIPTION: description, PRICE: price });
+        return res.status(201).json({
+            message: 'Service created Sucessfully',
+            result
+        })
+    } catch (error) {
+        console.log(error)
     }
-    console.log('Connected to MySQL database.');
-});
+})
 
-// Server listening
-app.listen(5000, () => {
-    console.log('Server is running on port 5000');
-});
 
-app.post('/signup-caregiver', (req, res) => {
-    const { name, email, password, phone } = req.body;
+function generateRandomId(length = 10) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let randomId = '';
 
-    const sql = 'INSERT INTO caregiver (name, email, password, phone) VALUES (?, ?, ?, ?)';
-    const values = [name, email, password, phone];
+    for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        randomId += characters[randomIndex];
+    }
+    return randomId;
+}
 
-    db.query(sql, values, (err, result) => {
-        if (err) {
-            console.error('Caregiver signup error: ', err);
-            return res.status(500).json({ message: 'Caregiver signup failed' });
-        }
-        res.status(200).json({ message: 'Caregiver signed up successfully', id: result.insertId });
-    });
-});
 
-app.post('/signup-customer', (req, res) => {
-    const { name, email, password, phone } = req.body;
 
-    const sql = 'INSERT INTO customer (name, email, password, phone) VALUES (?, ?, ?, ?)';
-    const values = [name, email, password, phone];
+app.post('/signup-customer', async (req, res) => {
+    try {
+        const { name, phone, address, email, password, role } = req.body;
+        const randomId = generateRandomId(10); // You can change the length as needed
+        console.log(randomId);
+        let result = await knex('CUSTOMERS').insert({
+            CUSTOMER_ID: randomId,
+            NAME: name,
+            EMAIL: email,
+            PHONE_NO: phone,
+            ADDRESS: address,
+            PASS: password
+        })
+        return res.json({
+            message: 'succesfully registerd customer'
+        })
+    } catch (error) {
+        console.log(error)
+    }
+})
 
-    db.query(sql, values, (err, result) => {
-        if (err) {
-            console.error('Customer signup error: ', err);
-            return res.status(500).json({ message: 'Customer signup failed' });
-        }
-        res.status(200).json({ message: 'Customer signed up successfully', id: result.insertId });
-    });
+app.post('/signup-caregiver', async (req, res) => {
+    try {
+        const { name, phone, address, email, password, experience, specialization, role } = req.body;
+        const randomId = generateRandomId(10);
+        let result = await knex('CAREGIVER').insert({
+            CAREGIVER_ID: randomId,
+            NAME: name,
+            EMAIL: email,
+            PHONE_NO: phone,
+            ADDRESS: address,
+            EXPERIENCE: experience,
+            SPECIALIZATION: specialization,
+            PASS: password
+        })
+        return res.json({
+            message: 'succesfully registerd caregiver'
+        })
+    }
+    catch (error) {
+        console.log(error)
+    }
+})
+
+app.post('/bookings', async (req, res) => {
+    try {
+        const { startDate, endDate, totalCost, paymentStatus } = req.body;
+        const randomId = generateRandomId(10); // You can change the length as needed
+        console.log(randomId);
+        let result = await knex('BOOKINGS').insert({
+            BOOKING_ID: randomId,
+            START_DATE: startDate,
+            END_DATE: endDate,
+            TOTAL_COST: totalCost,
+            PAYMENT_STATUS: paymentStatus
+        })
+        return res.json({
+            message: 'succesfully registerd bookings'
+        })
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+// Start the server
+const PORT = 5000;
+app.listen(PORT, () => {
+    console.log(`Server started on port ${PORT}`);
 });

@@ -36,15 +36,15 @@ export default function Bookings() {
         initialValues: initialValues,
         validationSchema: bookingValidationSchema,
         onSubmit: async (values, action) => {
-            console.log(values);
             try {
-                await axios.post('http://localhost:5000/api/bookings', values);
-                alert('Booking created successfully!');
-            } catch (err) {
-                console.error(err);
-                alert('Failed to create booking');
+                const res = await axios.post('http://localhost:5000/bookings', values);
+                console.log('Signup Success:', res.data);
+                alert('Booking done successfully!');
+                action.resetForm();
+            } catch (error) {
+                console.error('Signup Error:', error);
+                alert('Error Booking an appointment');
             }
-            action.resetForm();
         }
     });
 

@@ -6,9 +6,9 @@
 module.exports = {
     client: 'oracledb',
     connection: {
-      user: 'sys as sysdba',
-      password: 'root',
-      connectString: 'localhost:1521/naman'
+      user: 'MYUSER',
+      password: 'mypassword',
+      connectString: 'localhost:1521/XEPDB1'
     },
     migrations: {
       tableName: 'knex_migrations',

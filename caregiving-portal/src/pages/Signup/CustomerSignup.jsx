@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import toast from 'react-hot-toast';
+import axios from 'axios';
+
 import { validationSchema } from '../../schema/index';
 
 import { useFormik } from 'formik'
@@ -23,9 +25,17 @@ export default function CustomerSignup() {
     const { values, errors, touched, handleChange, handleBlur, handleSubmit } = useFormik({
         initialValues: initialValues,
         validationSchema: validationSchema,
-        onSubmit: (values, action) => {
-            console.log(values);
-            action.resetForm(); //resets the form after submit
+        onSubmit: async (values, action) => {
+            try {
+                
+                const res = await axios.post('http://localhost:5000/signup-customer', values);
+                console.log('Signup Success:', res.data);
+                alert('Caregiver signed up successfully!');
+                action.resetForm();
+            } catch (error) {
+                console.error('Signup Error:', error);
+                alert('Error during signup');
+            }
         }
     });
     // console.log(Formik)

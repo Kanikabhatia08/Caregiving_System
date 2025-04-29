@@ -4,6 +4,7 @@ import loginImg from '../images/login.jpg';
 import { useFormik } from 'formik';
 import { loginValidationSchema } from '../schema/index'; // Import Yup schema
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import axios from 'axios';
 
 const initialValues = {
   email: '',
@@ -18,11 +19,17 @@ function Login() {
   const { values, errors, touched, handleChange, handleBlur, handleSubmit } = useFormik({
     initialValues: initialValues,
     validationSchema: loginValidationSchema,
-    onSubmit: (values, actions) => {
-      console.log(values);
-      actions.resetForm();
-      // navigate("/dashboard"); // Optional: redirect after login
-    },
+    onSubmit: async (values, action) => {
+      try {
+          const res = await axios.post('http://localhost:5000/login', values);
+          console.log('Login Success:', res.data);
+          alert('Logged in successfully!');
+          action.resetForm();
+      } catch (error) {
+          console.error('Login Error:', error);
+          alert('Error during Login');
+      }
+  }
   });
 
   return (

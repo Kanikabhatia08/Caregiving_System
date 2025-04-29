@@ -10,7 +10,7 @@ import axios from 'axios';
 const dummyServices = [
     { name: 'Nursing', costPerDay: 500 },
     { name: 'Physiotherapy', costPerDay: 700 },
-    { name: 'Elderly Care', costPerDay: 600 },
+    { name: 'Elderly Care', costPerDay: 600 },  
 ];
 
 const initialValues = {

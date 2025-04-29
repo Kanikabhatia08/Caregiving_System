@@ -16,11 +16,11 @@ app.get('/', async (req, res) => {
     res.json(result)
 });
 
-
+// services API
 app.post('/services', async (req, res) => {
     try {
-        const { name, description, price } = req.body;
-        let result = await knex('SERVICES').insert({ SERVICE_ID: "23423", NAME: name, DESCRIPTION: description, PRICE: price });
+        const { id, name, description, price } = req.body;
+        let result = await knex('SERVICES').insert({ SERVICE_ID: id, NAME: name, DESCRIPTION: description, PRICE: price });
         return res.status(201).json({
             message: 'Service created Sucessfully',
             result
@@ -42,8 +42,61 @@ function generateRandomId(length = 10) {
     return randomId;
 }
 
+// LOGIN API
+app.post('/login', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        // First, check in CAREGIVER table
+        const caregiver = await knex('CAREGIVER').where({ EMAIL: email }).first();
+
+        if (caregiver) {
+            // Compare password
+            if (caregiver.PASSWORD !== password) { // Plain text password comparison
+                return res.status(401).json({ message: 'Invalid credentials' });
+            }
+
+            return res.status(200).json({
+                message: 'Login successful',
+                user: {
+                    id: caregiver.CAREGIVER_ID,
+                    email: caregiver.EMAIL,
+                    role: 'caregiver'
+                }
+            });
+        }
+
+        // Then, check in CUSTOMER table
+        const customer = await knex('CUSTOMER').where({ EMAIL: email }).first();
+
+        if (customer) {
+            // Compare password
+            if (customer.PASSWORD !== password) {
+                return res.status(401).json({ message: 'Invalid credentials' });
+            }
+
+            return res.status(200).json({
+                message: 'Login successful',
+                user: {
+                    id: customer.CUSTOMER_ID,
+                    email: customer.EMAIL,
+                    role: 'customer'
+                }
+            });
+        }
+
+        // If user not found in either
+        return res.status(401).json({ message: 'Invalid credentials' });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Login failed' });
+    }
+});
 
 
+
+//  customer signup api
 app.post('/signup-customer', async (req, res) => {
     try {
         const { name, phone, address, email, password, role } = req.body;

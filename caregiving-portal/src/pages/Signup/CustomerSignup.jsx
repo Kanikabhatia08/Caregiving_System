@@ -27,7 +27,6 @@ export default function CustomerSignup() {
         validationSchema: validationSchema,
         onSubmit: async (values, action) => {
             try {
-                
                 const res = await axios.post('http://localhost:5000/signup-customer', values);
                 console.log('Signup Success:', res.data);
                 alert('Caregiver signed up successfully!');
